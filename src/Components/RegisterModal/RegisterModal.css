@@ -1,0 +1,27 @@
+.register__button-group {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.register__modal-link {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-decoration: none;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.register__modal-text {
+  width: auto;
+  height: 20px;
+  color: #17a44b;
+  text-decoration: none;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+}
