@@ -42,6 +42,10 @@ A full-stack web app that analyzes Spotify tracks and generates playlist recomme
 Check out [this video](https://drive.google.com/file/d/1GxI0knnXRzUwveoz--Kj2NyxCzx5FhHk/view?usp=sharing), where I describe my
 project and some challenges I faced while building it.
 
+## Deployment Link
+
+https://mg97486.github.io/se_final_project/
+
 ## 📦 Installation
 
 ### 1. Clone the repo

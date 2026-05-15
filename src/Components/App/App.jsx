@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-
+import { Routes, Route } from "react-router-dom";
 import UploadSection from "../UploadSection/UploadSection";
 import ResultsSection from "../ResultsSection/ResultsSection";
 import About from "../AboutSection/AboutSection";
@@ -12,11 +11,7 @@ import Profile from "../Profile/Profile";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import ProtectedRoute from "../ProtectedRoute";
-import {
-  getTrack,
-  getAudioFeatures,
-  extractTrackId,
-} from "../../../server/api";
+import { getTrack, extractTrackId } from "../../../server/api";
 
 import "./App.css";
 
@@ -242,56 +237,55 @@ export default function App() {
   };
 
   return (
-    <BrowserRouter>
-      <div className="page">
-        <div className="page__content">
-          <Header
-            handleLogInClick={handleLogInClick}
-            handleSignUpClick={handleSignUpClick}
+    <div className="page">
+      <div className="page__content">
+        <Header
+          handleLogInClick={handleLogInClick}
+          handleSignUpClick={handleSignUpClick}
+        />
+        <Routes>
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute isLoggedIn={isLoggedIn}>
+                <Profile
+                  onEditProfile={handleOpenEditProfile}
+                  onSignOut={handleSignOut}
+                />
+              </ProtectedRoute>
+            }
           />
-          <Routes>
-            <Route
-              path="/profile"
-              element={
-                <ProtectedRoute isLoggedIn={isLoggedIn}>
-                  <Profile
-                    onEditProfile={handleOpenEditProfile}
-                    onSignOut={handleSignOut}
-                  />
-                </ProtectedRoute>
-              }
-            />
 
-            <Route
-              path="/"
-              element={
-                <>
-                  <UploadSection onAnalyze={handleAnalyze} />
+          <Route
+            path="/"
+            element={
+              <>
+                <UploadSection onAnalyze={handleAnalyze} />
 
-                  <ResultsSection
-                    playlists={playlists}
-                    track={track}
-                    error={error}
-                  />
-                </>
-              }
-            />
-          </Routes>
-        </div>
-        <LoginModal
-          isOpen={activeModal === "log-in"}
-          onClose={closeActiveModal}
-          onSubmit={loginUser}
-          onSignUpClick={handleSignUpClick}
-        />
-        <RegisterModal
-          isOpen={activeModal === "sign-up"}
-          onClose={closeActiveModal}
-          onSubmit={registerUser}
-          onLogInClick={handleLogInClick}
-        />
+                <ResultsSection
+                  playlists={playlists}
+                  track={track}
+                  error={error}
+                />
+              </>
+            }
+          />
+        </Routes>
       </div>
+      <LoginModal
+        isOpen={activeModal === "log-in"}
+        onClose={closeActiveModal}
+        onSubmit={loginUser}
+        onSignUpClick={handleSignUpClick}
+      />
+      <RegisterModal
+        isOpen={activeModal === "sign-up"}
+        onClose={closeActiveModal}
+        onSubmit={registerUser}
+        onLogInClick={handleLogInClick}
+      />
+
       <Footer />
-    </BrowserRouter>
+    </div>
   );
 }
