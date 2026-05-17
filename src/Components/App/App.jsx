@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import UploadSection from "../UploadSection/UploadSection";
 import ResultsSection from "../ResultsSection/ResultsSection";
 import About from "../AboutSection/AboutSection";
@@ -11,6 +11,7 @@ import Profile from "../Profile/Profile";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import ProtectedRoute from "../ProtectedRoute";
+import CurrentUserContext from "../../contexts/CurrentUserContext";
 import { getTrack, extractTrackId } from "../../../server/api";
 
 import "./App.css";
@@ -22,6 +23,11 @@ export default function App() {
   const [error, setError] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [activeModal, setActiveModal] = useState("");
+  const navigate = useNavigate();
+
+  const handleAddClick = () => {
+    navigate("/");
+  };
 
   function handleAnalyze(link) {
     const id = extractTrackId(link);
@@ -237,55 +243,63 @@ export default function App() {
   };
 
   return (
-    <div className="page">
-      <div className="page__content">
-        <Header
-          handleLogInClick={handleLogInClick}
-          handleSignUpClick={handleSignUpClick}
+    <CurrentUserContext.Provider value={currentUser}>
+      <div className="page">
+        <main className="page__content">
+          <Header
+            handleAddClick={handleAddClick}
+            handleLogInClick={handleLogInClick}
+            handleSignUpClick={handleSignUpClick}
+            isLoggedIn={isLoggedIn}
+          />
+          <Routes>
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute isLoggedIn={isLoggedIn}>
+                  <Profile
+                    onEditProfile={handleOpenEditProfile}
+                    onSignOut={handleSignOut}
+                  />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/"
+              element={
+                <>
+                  <UploadSection onAnalyze={handleAnalyze} />
+
+                  <ResultsSection
+                    playlists={playlists}
+                    track={track}
+                    error={error}
+                  />
+                </>
+              }
+            />
+          </Routes>
+        </main>
+        <LoginModal
+          isOpen={activeModal === "log-in"}
+          onClose={closeActiveModal}
+          onSubmit={loginUser}
+          onSignUpClick={handleSignUpClick}
         />
-        <Routes>
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute isLoggedIn={isLoggedIn}>
-                <Profile
-                  onEditProfile={handleOpenEditProfile}
-                  onSignOut={handleSignOut}
-                />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/"
-            element={
-              <>
-                <UploadSection onAnalyze={handleAnalyze} />
-
-                <ResultsSection
-                  playlists={playlists}
-                  track={track}
-                  error={error}
-                />
-              </>
-            }
-          />
-        </Routes>
+        <RegisterModal
+          isOpen={activeModal === "sign-up"}
+          onClose={closeActiveModal}
+          onSubmit={registerUser}
+          onLogInClick={handleLogInClick}
+        />
+        <EditProfileModal
+          isOpen={activeModal === "edit-profile"}
+          onClose={closeActiveModal}
+          onSubmit={handleUpdateUser}
+        />
       </div>
-      <LoginModal
-        isOpen={activeModal === "log-in"}
-        onClose={closeActiveModal}
-        onSubmit={loginUser}
-        onSignUpClick={handleSignUpClick}
-      />
-      <RegisterModal
-        isOpen={activeModal === "sign-up"}
-        onClose={closeActiveModal}
-        onSubmit={registerUser}
-        onLogInClick={handleLogInClick}
-      />
-
       <Footer />
-    </div>
+    </CurrentUserContext.Provider>
   );
 }

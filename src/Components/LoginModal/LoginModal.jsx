@@ -17,7 +17,7 @@ const LogInModal = ({ isOpen, onClose, onSignUpClick, onSubmit }) => {
     if (isOpen) {
       resetForm();
     }
-  }, [isOpen]);
+  }, [isOpen, resetForm]);
 
   return (
     <ModalWithForm

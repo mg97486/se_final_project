@@ -21,14 +21,13 @@ function Header({
       </div>
       {currentUser ? (
         <div className="header__right">
-          <ToggleSwitch />
-          {isLoggedIn && (
+          {isLoggedIn && handleAddClick && (
             <button
               onClick={handleAddClick}
               type="button"
               className="header__add-btn"
             >
-              + Add playlist
+              + Add Song
             </button>
           )}
           <NavLink to="/profile" className="header__profile-link">

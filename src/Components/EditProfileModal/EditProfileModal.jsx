@@ -7,17 +7,19 @@ import "./EditProfileModal.css";
 
 const EditProfileModal = ({ isOpen, onSubmit, onClose }) => {
   const currentUser = useContext(CurrentUserContext);
-  const defaultValues = {
+  const { values, handleChange, setValues, resetForm } = useForm({
     name: currentUser?.name || "",
     avatar: currentUser?.avatar || "",
-  };
-  const { values, handleChange, setValues, resetForm } = useForm(defaultValues);
+  });
 
   useEffect(() => {
     if (isOpen) {
-      setValues(defaultValues);
+      setValues({
+        name: currentUser?.name || "",
+        avatar: currentUser?.avatar || "",
+      });
     }
-  }, [isOpen, currentUser]);
+  }, [isOpen, currentUser, setValues]);
 
   function handleSubmit(evt) {
     evt.preventDefault();

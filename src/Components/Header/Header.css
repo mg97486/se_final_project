@@ -3,11 +3,10 @@
   justify-content: space-between;
   align-items: center;
   padding: 24px 40px;
-  background-color: #f3f3f3; /* Matches Figma light gray background */
+  background-color: #f3f3f3;
   font-family: "Cabinet Grotesk", sans-serif;
 }
 
-/* Left Section */
 .header__left {
   display: flex;
   align-items: center;
@@ -84,4 +83,22 @@
   height: 40px;
   border-radius: 50%;
   object-fit: cover;
+}
+
+@media screen and (max-width: 630px) {
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 10px;
+  }
+
+  .header__left {
+    margin: 12px 0 12px;
+  }
+
+  .header__right {
+    margin: 18px 12px 12px;
+    padding: 10px;
+  }
 }

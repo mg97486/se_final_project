@@ -26,7 +26,7 @@ const RegisterModal = ({ isOpen, onClose, onLogInClick, onSubmit }) => {
     if (isOpen) {
       resetForm();
     }
-  }, [isOpen]);
+  }, [isOpen, resetForm]);
 
   return (
     <ModalWithForm
