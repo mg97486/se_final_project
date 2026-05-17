@@ -25,7 +25,7 @@
 .modal__content {
   background-color: #fff;
   padding: 28px 32px 36px;
-  width: 496px;
+  width: min(100%, 496px);
   box-sizing: border-box;
   border-radius: 12px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
@@ -35,7 +35,9 @@
 }
 
 .modal_type_sign-up .modal__content {
-  height: 500px;
+  height: auto;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
 }
 
 .modal__title {
@@ -66,6 +68,16 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+  width: 100%;
+}
+
+.modal__label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  font-size: 14px;
+  color: #222;
 }
 
 .modal__input {
@@ -81,6 +93,19 @@
   color: #a9a9a9;
 }
 
+/* Ensure typed text and caret are visible on all themes */
+.modal__input {
+  color: #111;
+  background: transparent;
+  caret-color: #111;
+}
+
+/* Stronger selector to override other styles that may affect inputs */
+.modal__content .modal__input {
+  color: #111 !important;
+  caret-color: #111 !important;
+  -webkit-text-fill-color: #111 !important;
+}
 .modal__fieldset {
   border: none;
   margin: 0;
@@ -109,12 +134,15 @@
 .modal__submit {
   width: 73px;
   height: 36px;
-  background-color: #0000004d;
-  color: #ffffff;
+  background-color: #17a44b;
+  color: white;
   border: none;
   border-radius: 4px;
   font-size: 14px;
   font-weight: 500;
+}
+.modal__submit :hover {
+  background-color: #17a44b99;
 }
 
 .modal__submit:hover {
@@ -125,4 +153,28 @@
   display: flex;
   gap: 8px;
   align-items: center;
+}
+
+@media screen and (max-width: 420px) {
+  .modal__content {
+    margin: 0 12px;
+    padding: 20px 16px 24px;
+  }
+
+  .modal__submit-box {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .modal__submit {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .modal__content {
+    width: calc(100% - 24px);
+    padding: 18px 14px 22px;
+  }
 }
